@@ -2,7 +2,7 @@ package com.chopshop166.chopshop166
 
 import android.content.Intent
 import android.graphics.Bitmap
-import android.graphics.drawable.BitmapDrawable
+import android.graphics.Color
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.preference.PreferenceManager
@@ -20,9 +20,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         val prefs = PreferenceManager.getDefaultSharedPreferences(this)
-        prefs.registerOnSharedPreferenceChangeListener { allPrefs, key ->
-            genQR()
-        }
+        prefs.registerOnSharedPreferenceChangeListener { _, _ -> genQR() }
         genQR()
     }
 
@@ -32,7 +30,7 @@ class MainActivity : AppCompatActivity() {
         startActivity(intent)
     }
 
-    fun genQR() {
+    private fun genQR() {
         val prefs = PreferenceManager.getDefaultSharedPreferences(this)
         val firstName = prefs.getString("firstname_text", "")
         val lastName = prefs.getString("lastname_text", "")
@@ -56,7 +54,7 @@ class MainActivity : AppCompatActivity() {
         view.setImageBitmap(qrDataAndroid)
     }
 
-    fun qrToAndroid(bits : BitMatrix) : Bitmap {
+    private fun qrToAndroid(bits : BitMatrix) : Bitmap {
         val image = Bitmap.createBitmap(256, 256, Bitmap.Config.ARGB_8888)
         for(x in 0..255) {
             for(y in 0..255) {
@@ -68,10 +66,22 @@ class MainActivity : AppCompatActivity() {
     }
 
     @ColorInt
-    fun colorFor(x : Int, y : Int, value : Boolean) : Int {
-        @ColorInt val chopShopBlue = 0xff0F2B8E.toInt()
-        @ColorInt val black = 0xff000000.toInt()
-        @ColorInt val white = 0xffffffff.toInt()
-        return if(value) { chopShopBlue } else { white }
+    private fun colorFor(x : Int, y : Int, value : Boolean) : Int {
+        @ColorInt val chopShopBlue = Color.rgb(0x0F, 0x2B, 0x8E)
+        return if(value) {
+            gradientColor((x+y)/2.0f, 0.0f, 256.0f, chopShopBlue, Color.BLACK)
+        } else { Color.WHITE }
+    }
+
+    private fun gradientColor(x: Float, minX: Float, maxX: Float,
+                              @ColorInt from : Int, @ColorInt to : Int): Int {
+        val range = maxX - minX
+        val p : Float = (x - minX) / range
+
+        return Color.rgb(
+            (Color.red(from) * p + Color.red(to) * (1 - p)).toInt(),
+            (Color.green(from) * p + Color.green(to) * (1 - p)).toInt(),
+            (Color.blue(from) * p + Color.blue(to) * (1 - p)).toInt()
+        )
     }
 }
