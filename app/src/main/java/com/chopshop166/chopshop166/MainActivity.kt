@@ -3,6 +3,7 @@ package com.chopshop166.chopshop166
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Color
+import android.net.Uri
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.preference.PreferenceManager
@@ -27,6 +28,18 @@ class MainActivity : AppCompatActivity() {
     /** Called when the user taps the Settings button */
     fun goToSettings(view: View) {
         val intent = Intent(this, SettingsActivity::class.java)
+        startActivity(intent)
+    }
+
+    /** Called when the user taps the Website button */
+    fun goToWebsite(view: View) {
+        val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse("https://www.chopshop166.com"))
+        startActivity(browserIntent)
+    }
+
+    /** Called when the user taps the Help button */
+    fun goToHelp(view: View) {
+        val intent = Intent(this, HelpActivity::class.java)
         startActivity(intent)
     }
 
