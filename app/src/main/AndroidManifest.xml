@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.chopshop166.chopshop166">
+    package="com.chopshop166.cssignin">
 
     <application
         android:allowBackup="true"
@@ -22,7 +22,7 @@
             android:parentActivityName=".MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.chopshop166.chopshop166.MainActivity" />
+                android:value="com.chopshop166.cssignin.MainActivity" />
         </activity>
         <activity
             android:name=".HelpActivity"
@@ -31,7 +31,7 @@
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.chopshop166.chopshop166.MainActivity" />
+                android:value="com.chopshop166.cssignin.MainActivity" />
         </activity>
     </application>
 

@@ -1,4 +1,4 @@
-package com.chopshop166.chopshop166
+package com.chopshop166.cssignin
 
 import android.annotation.TargetApi
 import android.content.Context

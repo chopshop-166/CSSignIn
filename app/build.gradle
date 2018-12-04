@@ -7,7 +7,7 @@ apply plugin: 'kotlin-android-extensions'
 android {
     compileSdkVersion 28
     defaultConfig {
-        applicationId "com.chopshop166.chopshop166"
+        applicationId "com.chopshop166.cssignin"
         minSdkVersion 15
         targetSdkVersion 28
         versionCode 1
