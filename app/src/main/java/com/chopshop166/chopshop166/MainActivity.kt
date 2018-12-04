@@ -83,7 +83,7 @@ class MainActivity : AppCompatActivity() {
         @ColorInt val chopShopBlue = Color.rgb(0x0F, 0x2B, 0x8E)
         return if(value) {
             gradientColor((x+y)/2.0f, 0.0f, 256.0f, chopShopBlue, Color.BLACK)
-        } else { Color.WHITE }
+        } else { Color.TRANSPARENT }
     }
 
     private fun gradientColor(x: Float, minX: Float, maxX: Float,
