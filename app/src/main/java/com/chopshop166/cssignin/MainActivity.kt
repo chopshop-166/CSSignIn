@@ -37,6 +37,12 @@ class MainActivity : AppCompatActivity() {
         startActivity(browserIntent)
     }
 
+    /** Called when the user taps the Website button */
+    fun goToCalendar(view: View) {
+        val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse("https://chopshop166.com/calendar-Team166"))
+        startActivity(browserIntent)
+    }
+
     /** Called when the user taps the Help button */
     fun goToHelp(view: View) {
         val intent = Intent(this, HelpActivity::class.java)

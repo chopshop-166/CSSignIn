@@ -68,6 +68,14 @@
             android:text="Website" />
 
         <Button
+            style="?android:attr/buttonBarButtonStyle"
+            android:id="@+id/calendar_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="goToCalendar"
+            android:text="Calendar" />
+
+        <Button
             android:id="@+id/help_button"
             style="?android:attr/buttonBarButtonStyle"
             android:layout_width="wrap_content"
