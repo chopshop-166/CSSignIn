@@ -1,6 +1,7 @@
 package com.chopshop166.cssignin
 
 import android.content.Intent
+import android.content.SharedPreferences
 import android.graphics.Bitmap
 import android.graphics.Color
 import android.net.Uri
@@ -16,12 +17,14 @@ import com.google.zxing.qrcode.QRCodeWriter
 
 class MainActivity : AppCompatActivity() {
 
+    private val prefChanged = SharedPreferences.OnSharedPreferenceChangeListener { _, _ -> genQR() }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val prefs = PreferenceManager.getDefaultSharedPreferences(this)
-        prefs.registerOnSharedPreferenceChangeListener { _, _ -> genQR() }
+        val prefs = PreferenceManager.getDefaultSharedPreferences(applicationContext)
+        prefs.registerOnSharedPreferenceChangeListener (prefChanged)
         genQR()
     }
 
