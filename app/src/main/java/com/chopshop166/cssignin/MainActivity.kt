@@ -68,7 +68,7 @@ class MainActivity : AppCompatActivity() {
 
         val qrText = builder.toString()
         val writer = QRCodeWriter()
-        val qrData = writer.encode(qrText, BarcodeFormat.QR_CODE, 256, 256)
+        val qrData = writer.encode(qrText, BarcodeFormat.QR_CODE, qrWidth, qrHeight)
 
         val qrDataAndroid = qrToAndroid(qrData)
 
@@ -76,10 +76,13 @@ class MainActivity : AppCompatActivity() {
         view.setImageBitmap(qrDataAndroid)
     }
 
+    private val qrWidth = 256
+    private val qrHeight = 256
+
     private fun qrToAndroid(bits : BitMatrix) : Bitmap {
-        val image = Bitmap.createBitmap(256, 256, Bitmap.Config.ARGB_8888)
-        for(x in 0..255) {
-            for(y in 0..255) {
+        val image = Bitmap.createBitmap(qrWidth, qrHeight, Bitmap.Config.ARGB_8888)
+        for(x in 0..(qrWidth-1)) {
+            for(y in 0..(qrHeight-1)) {
                 val color = colorFor(x, y, bits[x, y])
                 image.setPixel(x, y, color)
             }
@@ -91,14 +94,16 @@ class MainActivity : AppCompatActivity() {
     private fun colorFor(x : Int, y : Int, value : Boolean) : Int {
         @ColorInt val chopShopBlue = Color.rgb(0x0F, 0x2B, 0x8E)
         return if(value) {
-            gradientColor((x+y)/2.0f, 0.0f, 256.0f, chopShopBlue, Color.BLACK)
+            val centerX = qrWidth / 2.0
+            val centerY = qrHeight / 2.0
+            gradientColor(Math.hypot(x - centerX, y - centerY), 0.0, centerX, Color.BLACK, chopShopBlue)
         } else { Color.TRANSPARENT }
     }
 
-    private fun gradientColor(x: Float, minX: Float, maxX: Float,
+    private fun gradientColor(x: Double, minX: Double, maxX: Double,
                               @ColorInt from : Int, @ColorInt to : Int): Int {
         val range = maxX - minX
-        val p : Float = (x - minX) / range
+        val p = (x - minX) / range
 
         return Color.rgb(
             (Color.red(from) * p + Color.red(to) * (1 - p)).toInt(),
