@@ -58,15 +58,9 @@ class MainActivity : AppCompatActivity() {
         val lastName = prefs.getString("lastname_text", "")
         val isMentor = prefs.getBoolean("mentor_switch", false)
 
-        val builder = StringBuilder()
-        if (isMentor) {
-            builder.append("Mentor - ")
-        }
-        builder.append(lastName)
-        builder.append(", ")
-        builder.append(firstName)
+        val prefix = if (isMentor) "Mentor - " else ""
+        val qrText = "$prefix$lastName, $firstName"
 
-        val qrText = builder.toString()
         val writer = QRCodeWriter()
         val qrData = writer.encode(qrText, BarcodeFormat.QR_CODE, qrWidth, qrHeight)
 
