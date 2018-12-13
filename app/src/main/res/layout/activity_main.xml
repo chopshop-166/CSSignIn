@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -16,7 +16,7 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
-        android:contentDescription="Chop Shop 166 logo"
+        android:contentDescription="@string/logo_text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -57,7 +57,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="goToSettings"
-            android:text="Settings" />
+            android:text="@string/action_name_settings" />
 
         <Button
             style="?android:attr/buttonBarButtonStyle"
@@ -65,7 +65,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="goToWebsite"
-            android:text="Website" />
+            android:text="@string/action_name_website" />
 
         <Button
             style="?android:attr/buttonBarButtonStyle"
@@ -73,7 +73,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="goToCalendar"
-            android:text="Calendar" />
+            android:text="@string/action_name_calendar" />
 
         <Button
             android:id="@+id/help_button"
@@ -81,7 +81,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="goToHelp"
-            android:text="Help" />
+            android:text="@string/action_name_help" />
     </LinearLayout>
 
-</android.support.constraint.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

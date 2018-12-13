@@ -5,15 +5,15 @@ import android.content.SharedPreferences
 import android.graphics.Bitmap
 import android.graphics.Color
 import android.net.Uri
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.preference.PreferenceManager
-import android.support.annotation.ColorInt
 import android.view.View
-import android.widget.ImageView
+import androidx.appcompat.app.AppCompatActivity
+import androidx.annotation.ColorInt
 import com.google.zxing.BarcodeFormat
 import com.google.zxing.common.BitMatrix
 import com.google.zxing.qrcode.QRCodeWriter
+import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
@@ -66,8 +66,7 @@ class MainActivity : AppCompatActivity() {
 
         val qrDataAndroid = qrToAndroid(qrData)
 
-        val view = findViewById<ImageView>(R.id.qrCodeImage)
-        view.setImageBitmap(qrDataAndroid)
+        qrCodeImage.setImageBitmap(qrDataAndroid)
     }
 
     private val qrWidth = 256
