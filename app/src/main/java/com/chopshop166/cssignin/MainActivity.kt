@@ -118,7 +118,7 @@ class MainActivity : AppCompatActivity() {
     private fun gradientColor(x: Double, minX: Double, maxX: Double,
                               @ColorInt from : Int, @ColorInt to : Int): Int {
         val range = maxX - minX
-        val p = (x - minX) / range
+        val p = Math.pow((x - minX) / range, 2.0)
 
         return Color.rgb(
             (Color.red(from) * p + Color.red(to) * (1 - p)).toInt(),
