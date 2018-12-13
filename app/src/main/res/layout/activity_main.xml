@@ -1,11 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        android:elevation="4dp"
+        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
     <ImageView
         android:id="@+id/imageView"
@@ -18,8 +26,9 @@
         android:layout_marginRight="8dp"
         android:contentDescription="@string/logo_text"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"
         app:srcCompat="@drawable/chopshop_logo" />
 
     <ImageView
@@ -33,55 +42,11 @@
         android:layout_marginRight="8dp"
         android:contentDescription="@string/qr_text"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:srcCompat="@android:color/white" />
 
-
-    <LinearLayout
-        style="?android:attr/buttonBarStyle"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:gravity="center"
-
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/qrCodeImage">
-
-        <Button
-            style="?android:attr/buttonBarButtonStyle"
-            android:id="@+id/settings_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:onClick="goToSettings"
-            android:text="@string/action_name_settings" />
-
-        <Button
-            style="?android:attr/buttonBarButtonStyle"
-            android:id="@+id/web_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:onClick="goToWebsite"
-            android:text="@string/action_name_website" />
-
-        <Button
-            style="?android:attr/buttonBarButtonStyle"
-            android:id="@+id/calendar_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:onClick="goToCalendar"
-            android:text="@string/action_name_calendar" />
-
-        <Button
-            android:id="@+id/help_button"
-            style="?android:attr/buttonBarButtonStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:onClick="goToHelp"
-            android:text="@string/action_name_help" />
-    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

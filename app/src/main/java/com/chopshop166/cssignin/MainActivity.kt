@@ -7,6 +7,9 @@ import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import android.preference.PreferenceManager
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.annotation.ColorInt
@@ -22,34 +25,53 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        setSupportActionBar(toolbar)
 
         val prefs = PreferenceManager.getDefaultSharedPreferences(applicationContext)
         prefs.registerOnSharedPreferenceChangeListener (prefChanged)
         genQR()
     }
 
-    /** Called when the user taps the Settings button */
-    fun goToSettings(view: View) {
-        val intent = Intent(this, SettingsActivity::class.java)
-        startActivity(intent)
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        val inflater: MenuInflater = menuInflater
+        inflater.inflate(R.menu.menu_actions, menu)
+        return true
     }
 
-    /** Called when the user taps the Website button */
-    fun goToWebsite(view: View) {
-        val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse("https://www.chopshop166.com"))
-        startActivity(browserIntent)
-    }
+    override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
+        R.id.action_settings -> {
+            // User chose the "Settings" item, show the app settings UI...
+            val intent = Intent(this, SettingsActivity::class.java)
+            startActivity(intent)
+            true
+        }
 
-    /** Called when the user taps the Website button */
-    fun goToCalendar(view: View) {
-        val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse("https://chopshop166.com/calendar-Team166"))
-        startActivity(browserIntent)
-    }
+        R.id.action_web -> {
+            // User chose the "Website" action, go to the website
+            val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse("https://www.chopshop166.com"))
+            startActivity(browserIntent)
+            true
+        }
 
-    /** Called when the user taps the Help button */
-    fun goToHelp(view: View) {
-        val intent = Intent(this, HelpActivity::class.java)
-        startActivity(intent)
+        R.id.action_calendar -> {
+            // User chose the "Calendar" action, go to the calendar website...
+            val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse("https://chopshop166.com/calendar-Team166"))
+            startActivity(browserIntent)
+            true
+        }
+
+        R.id.action_help -> {
+            // User chose the "Help" action, go to the about page...
+            val intent = Intent(this, HelpActivity::class.java)
+            startActivity(intent)
+            true
+        }
+
+        else -> {
+            // If we got here, the user's action was not recognized.
+            // Invoke the superclass to handle it.
+            super.onOptionsItemSelected(item)
+        }
     }
 
     private fun genQR() {
