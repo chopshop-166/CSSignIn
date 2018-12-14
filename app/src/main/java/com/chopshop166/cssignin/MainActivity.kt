@@ -10,13 +10,14 @@ import android.preference.PreferenceManager
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
-import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.annotation.ColorInt
 import com.google.zxing.BarcodeFormat
+import com.google.zxing.EncodeHintType
 import com.google.zxing.common.BitMatrix
 import com.google.zxing.qrcode.QRCodeWriter
 import kotlinx.android.synthetic.main.activity_main.*
+import java.util.EnumMap
 
 class MainActivity : AppCompatActivity() {
 
@@ -84,21 +85,23 @@ class MainActivity : AppCompatActivity() {
         val qrText = "$prefix$lastName, $firstName"
 
         val writer = QRCodeWriter()
-        val qrData = writer.encode(qrText, BarcodeFormat.QR_CODE, qrWidth, qrHeight)
+        val hints = EnumMap<EncodeHintType, Any>(EncodeHintType::class.java)
+        hints[EncodeHintType.MARGIN] = 2
 
-        val qrDataAndroid = qrToAndroid(qrData)
+        val qrWidth = 512
+        val qrHeight = 512
+        val qrData = writer.encode(qrText, BarcodeFormat.QR_CODE, qrWidth, qrHeight, hints)
+
+        val qrDataAndroid = qrToAndroid(qrData, qrWidth, qrHeight)
 
         qrCodeImage.setImageBitmap(qrDataAndroid)
     }
 
-    private val qrWidth = 256
-    private val qrHeight = 256
-
-    private fun qrToAndroid(bits : BitMatrix) : Bitmap {
+    private fun qrToAndroid(bits : BitMatrix, qrWidth : Int, qrHeight : Int) : Bitmap {
         val image = Bitmap.createBitmap(qrWidth, qrHeight, Bitmap.Config.ARGB_8888)
         for(x in 0..(qrWidth-1)) {
             for(y in 0..(qrHeight-1)) {
-                val color = colorFor(x, y, bits[x, y])
+                val color = colorFor(x, y, bits[x, y], qrWidth, qrHeight)
                 image.setPixel(x, y, color)
             }
         }
@@ -106,12 +109,13 @@ class MainActivity : AppCompatActivity() {
     }
 
     @ColorInt
-    private fun colorFor(x : Int, y : Int, value : Boolean) : Int {
+    private fun colorFor(x : Int, y : Int, value : Boolean, width : Int, height : Int) : Int {
         @ColorInt val chopShopBlue = Color.rgb(0x0F, 0x2B, 0x8E)
         return if(value) {
-            val centerX = qrWidth / 2.0
-            val centerY = qrHeight / 2.0
-            gradientColor(Math.hypot(x - centerX, y - centerY), 0.0, centerX, Color.BLACK, chopShopBlue)
+            val centerX = width / 2.0
+            val centerY = height / 2.0
+            val hypotDist = Math.hypot(centerX, centerY)
+            gradientColor(Math.hypot(x - centerX, y - centerY), 0.0, hypotDist, Color.BLACK, chopShopBlue)
         } else { Color.TRANSPARENT }
     }
 
