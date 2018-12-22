@@ -12,6 +12,8 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.annotation.ColorInt
+import androidx.appcompat.app.AlertDialog
+import androidx.core.text.HtmlCompat
 import com.google.zxing.BarcodeFormat
 import com.google.zxing.EncodeHintType
 import com.google.zxing.common.BitMatrix
@@ -30,6 +32,17 @@ class MainActivity : AppCompatActivity() {
 
         val prefs = PreferenceManager.getDefaultSharedPreferences(applicationContext)
         prefs.registerOnSharedPreferenceChangeListener (prefChanged)
+        if(prefs.getString("firstname_text", "") == "" ||
+            prefs.getString("lastname_text", "") == "") {
+            val builder = AlertDialog.Builder(this)
+            builder.setMessage("You have no name! Please enter your first name.")
+                .setTitle(HtmlCompat.fromHtml("<font color='#000000'>Enter name</font>", HtmlCompat.FROM_HTML_MODE_COMPACT))
+                .setPositiveButton("OK")  { dialog, id ->
+                    val intent = Intent(this, SettingsActivity::class.java)
+                    startActivity(intent)
+                }
+            builder.show()
+        }
         genQR()
     }
 
