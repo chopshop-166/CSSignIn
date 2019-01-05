@@ -7,18 +7,19 @@ import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import android.preference.PreferenceManager
-import android.view.Menu
-import android.view.MenuInflater
-import android.view.MenuItem
+import android.view.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.annotation.ColorInt
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.view.ContextThemeWrapper
+import androidx.core.content.edit
 import androidx.core.text.HtmlCompat
 import com.google.zxing.BarcodeFormat
 import com.google.zxing.EncodeHintType
 import com.google.zxing.common.BitMatrix
 import com.google.zxing.qrcode.QRCodeWriter
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.dialog_name.view.*
 import java.util.EnumMap
 
 class MainActivity : AppCompatActivity() {
@@ -34,21 +35,25 @@ class MainActivity : AppCompatActivity() {
         prefs.registerOnSharedPreferenceChangeListener (prefChanged)
         if(prefs.getString("firstname_text", "") == "" ||
             prefs.getString("lastname_text", "") == "") {
-            val builder = AlertDialog.Builder(this)
-            builder.setMessage("You have no name! Please enter your first name.")
-                .setTitle(HtmlCompat.fromHtml("<font color='#000000'>Enter name</font>", HtmlCompat.FROM_HTML_MODE_COMPACT))
-                .setPositiveButton("OK")  { dialog, id ->
-                    val intent = Intent(this, SettingsActivity::class.java)
-                    startActivity(intent)
+            val dialogView = layoutInflater.inflate(R.layout.dialog_name, findViewById(R.id.content))
+            val builder = AlertDialog.Builder(ContextThemeWrapper(this, R.style.AppTheme)).apply {
+                setView(dialogView)
+                setTitle(HtmlCompat.fromHtml("<font color='#000000'>Enter name</font>", HtmlCompat.FROM_HTML_MODE_COMPACT))
+            }
+            val dialog = builder.show()
+            dialogView.dialogOkBtn.setOnClickListener {
+                dialog.dismiss()
+                prefs.edit {
+                    putString("firstname_text", dialogView.dialogFirstNameEt.text.toString())
+                    putString("lastname_text", dialogView.dialogLastNameEt.text.toString())
                 }
-            builder.show()
+            }
         }
         genQR()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        val inflater: MenuInflater = menuInflater
-        inflater.inflate(R.menu.menu_actions, menu)
+        menuInflater.inflate(R.menu.menu_actions, menu)
         return true
     }
 
@@ -127,8 +132,8 @@ class MainActivity : AppCompatActivity() {
         return if(value) {
             val centerX = width / 2.0
             val centerY = height / 2.0
-            val hypotDist = Math.hypot(centerX, centerY)
-            gradientColor(Math.hypot(x - centerX, y - centerY), 0.0, hypotDist, Color.BLACK, chopShopBlue)
+            val hDist = Math.hypot(centerX, centerY)
+            gradientColor(Math.hypot(x - centerX, y - centerY), 0.0, hDist, Color.BLACK, chopShopBlue)
         } else { Color.TRANSPARENT }
     }
 
