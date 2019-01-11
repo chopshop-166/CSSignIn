@@ -104,7 +104,7 @@ class MainActivity : AppCompatActivity() {
 
         val writer = QRCodeWriter()
         val hints = EnumMap<EncodeHintType, Any>(EncodeHintType::class.java)
-        hints[EncodeHintType.MARGIN] = 2
+        hints[EncodeHintType.MARGIN] = 0
 
         val qrWidth = 512
         val qrHeight = 512
@@ -137,6 +137,7 @@ class MainActivity : AppCompatActivity() {
         } else { Color.TRANSPARENT }
     }
 
+    @ColorInt
     private fun gradientColor(x: Double, minX: Double, maxX: Double,
                               @ColorInt from : Int, @ColorInt to : Int): Int {
         val range = maxX - minX
