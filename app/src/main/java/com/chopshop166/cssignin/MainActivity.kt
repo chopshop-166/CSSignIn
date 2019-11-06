@@ -93,6 +93,14 @@ class MainActivity : AppCompatActivity() {
             true
         }
 
+        R.id.action_github -> {
+            // User chose the "Calendar" action, go to the calendar website...
+            val browserIntent =
+                Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/chopshop-166"))
+            startActivity(browserIntent)
+            true
+        }
+
         R.id.action_help -> {
             // User chose the "Help" action, go to the about page...
             val intent = Intent(this, HelpActivity::class.java)
