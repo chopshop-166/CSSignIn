@@ -2,7 +2,6 @@
     <string name="app_name">Chop Shop 166</string>
     <string name="title_activity_settings">Settings</string>
 
-    <string name="pref_header_qr">QR Code</string>
     <string name="pref_title_qr_fname">First Name</string>
     <string name="pref_title_qr_lname">Last Name</string>
     <string name="pref_title_qr_ismentor">Is Mentor?</string>
@@ -30,7 +29,6 @@
    See the License for the specific language governing permissions and
    limitations under the License."
     </string>
-    <string name="action_settings">Settings</string>
     <string name="action_name_settings">Settings</string>
     <string name="action_name_website">Website</string>
     <string name="action_name_calendar">Calendar</string>
