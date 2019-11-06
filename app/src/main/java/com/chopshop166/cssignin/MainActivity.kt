@@ -7,10 +7,11 @@ import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import android.preference.PreferenceManager
-import android.view.*
-import androidx.appcompat.app.AppCompatActivity
+import android.view.Menu
+import android.view.MenuItem
 import androidx.annotation.ColorInt
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.view.ContextThemeWrapper
 import androidx.core.content.edit
 import androidx.core.text.HtmlCompat
@@ -20,8 +21,9 @@ import com.google.zxing.common.BitMatrix
 import com.google.zxing.qrcode.QRCodeWriter
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.dialog_name.view.*
-import java.util.EnumMap
-import kotlin.math.*
+import java.util.*
+import kotlin.math.hypot
+import kotlin.math.pow
 
 class MainActivity : AppCompatActivity() {
 
@@ -36,13 +38,20 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
 
         val prefs = PreferenceManager.getDefaultSharedPreferences(applicationContext)
-        prefs.registerOnSharedPreferenceChangeListener (prefChanged)
-        if(prefs.getString("firstname_text", "") == "" ||
-            prefs.getString("lastname_text", "") == "") {
-            val dialogView = layoutInflater.inflate(R.layout.dialog_name, findViewById(R.id.content))
+        prefs.registerOnSharedPreferenceChangeListener(prefChanged)
+        if (prefs.getString("firstname_text", "") == "" ||
+            prefs.getString("lastname_text", "") == ""
+        ) {
+            val dialogView =
+                layoutInflater.inflate(R.layout.dialog_name, findViewById(R.id.content))
             val builder = AlertDialog.Builder(ContextThemeWrapper(this, R.style.AppTheme)).apply {
                 setView(dialogView)
-                setTitle(HtmlCompat.fromHtml("<font color='#000000'>Enter name</font>", HtmlCompat.FROM_HTML_MODE_COMPACT))
+                setTitle(
+                    HtmlCompat.fromHtml(
+                        "<font color='#000000'>Enter name</font>",
+                        HtmlCompat.FROM_HTML_MODE_COMPACT
+                    )
+                )
             }
             val dialog = builder.show()
             dialogView.dialogOkBtn.setOnClickListener {
@@ -78,7 +87,8 @@ class MainActivity : AppCompatActivity() {
 
         R.id.action_calendar -> {
             // User chose the "Calendar" action, go to the calendar website...
-            val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse("https://chopshop166.com/calendar-Team166"))
+            val browserIntent =
+                Intent(Intent.ACTION_VIEW, Uri.parse("https://chopshop166.com/calendar-Team166"))
             startActivity(browserIntent)
             true
         }
@@ -117,10 +127,10 @@ class MainActivity : AppCompatActivity() {
         qrCodeImage.setImageBitmap(qrDataAndroid)
     }
 
-    private fun qrToAndroid(bits : BitMatrix) : Bitmap {
+    private fun qrToAndroid(bits: BitMatrix): Bitmap {
         val image = Bitmap.createBitmap(qrWidth, qrHeight, Bitmap.Config.ARGB_8888)
-        for(x in 0 until qrWidth) {
-            for(y in 0 until qrHeight) {
+        for (x in 0 until qrWidth) {
+            for (y in 0 until qrHeight) {
                 val color = colorFor(x, y, bits[x, y])
                 image.setPixel(x, y, color)
             }
@@ -129,18 +139,20 @@ class MainActivity : AppCompatActivity() {
     }
 
     @ColorInt
-    private fun colorFor(x : Int, y : Int, value : Boolean) : Int {
+    private fun colorFor(x: Int, y: Int, value: Boolean): Int {
         @ColorInt val chopShopBlue = Color.rgb(0x0F, 0x2B, 0x8E)
-        return if(value) {
+        return if (value) {
             val centerX = qrWidth / 2.0
             val centerY = qrHeight / 2.0
             val hDist = hypot(centerX, centerY)
             gradientColor(hypot(x - centerX, y - centerY), hDist, chopShopBlue)
-        } else { Color.TRANSPARENT }
+        } else {
+            Color.TRANSPARENT
+        }
     }
 
     @ColorInt
-    private fun gradientColor(x: Double, maxX: Double, @ColorInt to : Int): Int {
+    private fun gradientColor(x: Double, maxX: Double, @ColorInt to: Int): Int {
         val p = (x / maxX).pow(2.0)
 
         return Color.rgb(
