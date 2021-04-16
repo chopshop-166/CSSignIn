@@ -143,7 +143,7 @@ class MainActivity : AppCompatActivity() {
             val hDist = hypot(centerX, centerY)
             gradientColor(hypot(x - centerX, y - centerY), hDist, CHOPSHOP_BLUE)
         } else {
-            Color.TRANSPARENT
+            Color.WHITE
         }
     }
 
