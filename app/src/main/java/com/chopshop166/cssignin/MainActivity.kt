@@ -9,23 +9,28 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.annotation.ColorInt
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.view.ContextThemeWrapper
-import androidx.core.content.edit
-import androidx.core.text.HtmlCompat
 import androidx.preference.PreferenceManager
+import com.chopshop166.cssignin.databinding.ActivityMainBinding
 import com.google.zxing.BarcodeFormat
 import com.google.zxing.EncodeHintType
 import com.google.zxing.common.BitMatrix
 import com.google.zxing.qrcode.QRCodeWriter
-import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.dialog_name.view.*
 import java.util.*
 import kotlin.math.hypot
 import kotlin.math.pow
 
 class MainActivity : AppCompatActivity() {
+
+    companion object {
+        const val PREF_NAME_FIRST = "firstname_text"
+        const val PREF_NAME_LAST = "lastname_text"
+
+        @ColorInt
+        val CHOPSHOP_BLUE = Color.rgb(0x0F, 0x2B, 0x8E)
+    }
+
+    private lateinit var binding: ActivityMainBinding
 
     private val qrWidth = 512
     private val qrHeight = 512
@@ -34,40 +39,24 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-        setSupportActionBar(toolbar)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        setSupportActionBar(binding.toolbar)
 
         val prefs = PreferenceManager.getDefaultSharedPreferences(applicationContext)
         prefs.registerOnSharedPreferenceChangeListener(prefChanged)
-        if (prefs.getString("firstname_text", "") == "" ||
-            prefs.getString("lastname_text", "") == ""
+        if (prefs.getString(PREF_NAME_FIRST, "") == "" ||
+            prefs.getString(PREF_NAME_LAST, "") == ""
         ) {
-            val dialogView =
-                layoutInflater.inflate(R.layout.dialog_name, findViewById(R.id.content))
-            val builder = AlertDialog.Builder(ContextThemeWrapper(this, R.style.AppTheme)).apply {
-                setView(dialogView)
-                setTitle(
-                    HtmlCompat.fromHtml(
-                        "<font color='#000000'>Enter name</font>",
-                        HtmlCompat.FROM_HTML_MODE_COMPACT
-                    )
-                )
-            }
-            val dialog = builder.show()
-            dialogView.dialogOkBtn.setOnClickListener {
-                dialog.dismiss()
-                prefs.edit {
-                    putString("firstname_text", dialogView.dialogFirstNameEt.text.toString())
-                    putString("lastname_text", dialogView.dialogLastNameEt.text.toString())
-                }
-            }
+            val dialogFragment = AskNameFragment()
+            dialogFragment.show(supportFragmentManager, "names")
         }
         genQR()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menu_actions, menu)
-        return true
+        return super.onCreateOptionsMenu(menu)
     }
 
     override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
@@ -117,8 +106,8 @@ class MainActivity : AppCompatActivity() {
 
     private fun genQR() {
         val prefs = PreferenceManager.getDefaultSharedPreferences(this)
-        val firstName = prefs.getString("firstname_text", "")
-        val lastName = prefs.getString("lastname_text", "")
+        val firstName = prefs.getString(PREF_NAME_FIRST, "")
+        val lastName = prefs.getString(PREF_NAME_LAST, "")
         val isMentor = prefs.getBoolean("mentor_switch", false)
 
         val prefix = if (isMentor) "Mentor - " else ""
@@ -132,7 +121,7 @@ class MainActivity : AppCompatActivity() {
 
         val qrDataAndroid = qrToAndroid(qrData)
 
-        qrCodeImage.setImageBitmap(qrDataAndroid)
+        binding.qrCodeImage.setImageBitmap(qrDataAndroid)
     }
 
     private fun qrToAndroid(bits: BitMatrix): Bitmap {
@@ -148,12 +137,11 @@ class MainActivity : AppCompatActivity() {
 
     @ColorInt
     private fun colorFor(x: Int, y: Int, value: Boolean): Int {
-        @ColorInt val chopShopBlue = Color.rgb(0x0F, 0x2B, 0x8E)
         return if (value) {
             val centerX = qrWidth / 2.0
             val centerY = qrHeight / 2.0
             val hDist = hypot(centerX, centerY)
-            gradientColor(hypot(x - centerX, y - centerY), hDist, chopShopBlue)
+            gradientColor(hypot(x - centerX, y - centerY), hDist, CHOPSHOP_BLUE)
         } else {
             Color.TRANSPARENT
         }

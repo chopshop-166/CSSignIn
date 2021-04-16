@@ -23,10 +23,12 @@ class SettingsActivity : AppCompatActivity() {
             setHasOptionsMenu(true)
 
             val firstnamePreference = findPreference<EditTextPreference>("firstname_text")
-            firstnamePreference?.summaryProvider = EditTextPreference.SimpleSummaryProvider.getInstance()
+            firstnamePreference?.summaryProvider =
+                EditTextPreference.SimpleSummaryProvider.getInstance()
 
             val lastnamePreference = findPreference<EditTextPreference>("lastname_text")
-            lastnamePreference?.summaryProvider = EditTextPreference.SimpleSummaryProvider.getInstance()
+            lastnamePreference?.summaryProvider =
+                EditTextPreference.SimpleSummaryProvider.getInstance()
         }
     }
 }
