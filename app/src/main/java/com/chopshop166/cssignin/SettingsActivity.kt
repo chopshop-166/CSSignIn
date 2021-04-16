@@ -1,6 +1,7 @@
 package com.chopshop166.cssignin
 
 import android.os.Bundle
+import android.text.InputType
 import androidx.appcompat.app.AppCompatActivity
 import androidx.preference.EditTextPreference
 import androidx.preference.PreferenceFragmentCompat
@@ -22,13 +23,16 @@ class SettingsActivity : AppCompatActivity() {
             setPreferencesFromResource(R.xml.root_preferences, rootKey)
             setHasOptionsMenu(true)
 
-            val firstnamePreference = findPreference<EditTextPreference>("firstname_text")
-            firstnamePreference?.summaryProvider =
-                EditTextPreference.SimpleSummaryProvider.getInstance()
+            val firstNamePreference = findPreference<EditTextPreference>("firstname_text")
+            firstNamePreference?.setOnBindEditTextListener { editText ->
+                editText.inputType = InputType.TYPE_TEXT_VARIATION_PERSON_NAME
+            }
 
-            val lastnamePreference = findPreference<EditTextPreference>("lastname_text")
-            lastnamePreference?.summaryProvider =
-                EditTextPreference.SimpleSummaryProvider.getInstance()
+
+            val lastNamePreference = findPreference<EditTextPreference>("lastname_text")
+            lastNamePreference?.setOnBindEditTextListener { editText ->
+                editText.inputType = InputType.TYPE_TEXT_VARIATION_PERSON_NAME
+            }
         }
     }
 }

@@ -1,24 +1,22 @@
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <EditTextPreference
-        android:key="firstname_text"
-        android:title="@string/first_name"
-        android:selectAllOnFocus="true"
-        android:inputType="textCapWords"
-        android:singleLine="true"
-        android:maxLines="1"/>
+        app:key="firstname_text"
+        app:title="@string/first_name"
+        app:useSimpleSummaryProvider="true"
+        app:singleLine="true"
+        app:maxLines="1"/>
 
     <EditTextPreference
-        android:key="lastname_text"
-        android:title="@string/last_name"
-        android:selectAllOnFocus="true"
-        android:inputType="textCapWords"
-        android:singleLine="true"
-        android:maxLines="1"/>
+        app:key="lastname_text"
+        app:title="@string/last_name"
+        app:useSimpleSummaryProvider="true"
+        app:singleLine="true"
+        app:maxLines="1"/>
 
     <SwitchPreference
-        android:defaultValue="false"
-        android:key="mentor_switch"
-        android:title="@string/pref_title_qr_ismentor" />
+        app:defaultValue="false"
+        app:key="mentor_switch"
+        app:title="@string/pref_title_qr_ismentor" />
 
 </PreferenceScreen>
